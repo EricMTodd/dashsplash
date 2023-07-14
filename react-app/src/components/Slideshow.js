@@ -1,29 +1,55 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import axios from 'axios'
+import '../css/slideshow.css'
 
 const Slideshow = () => {
-  const [photos, setPhotos] = useState([])
   const flickrApiKey = '39ebf8206b5f188179bf4176fadf9407'
-  const flickrSecret = '5c2557b9fe96eff2'
+  // const flickrSecret = '5c2557b9fe96eff2'
   // const flickrUserId = '194608125@N04'
   const flickrUserId = '194608125%40N04'
   const flickrPhotoSetId = '72177720295944595'
   const url = `https://www.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=${flickrApiKey}&photoset_id=${flickrPhotoSetId}&user_id=${flickrUserId}&per_page=300&format=json&nojsoncallback=1`
-  const imageUrlFormat = 'https://live.staticflickr.com/{server-id}/{id}_{secret}_b.jpg'
-
+  // const imageUrlFormat = 'https://live.staticflickr.com/{server-id}/{id}_{secret}_b.jpg'
+  let photos = []
+  let imageUrls = []
+  let imageUrlsIndex = 0
+  
+  
   useEffect(() => {
+    let currentImage = document.querySelector('.current-image')
+    let nextImage = document.querySelector('.next-image')
     axios.get(url)
     .then(response => {
-      console.log(response.data.photoset.photo)
-      setPhotos(response.data.photoset.photo)
+      // console.log(response.data)
+      photos = response.data.photoset.photo
+      photos.forEach(photo =>  {
+        imageUrls.push(`https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`)
+      })
+      currentImage.src = imageUrls[imageUrlsIndex]
+      nextImage.src = imageUrls[imageUrlsIndex + 1]
     })
     .catch(error => console.log(error))
   }, [])
-  
+
+  const switchImages = () => {
+    let currentImage = document.querySelector('.current-image')
+    let nextImage = document.querySelector('.next-image')
+    imageUrlsIndex += 1
+    currentImage.src = imageUrls[imageUrlsIndex]
+    nextImage.classList.remove('fade')
+    
+  }
+
+  const transitionImages = () => {
+    let currentImage = document.querySelector('.current-image')
+    let nextImage = document.querySelector('.next-image')
+    nextImage.classList.add('fade')
+  }
+
   return(
     <div className='slideshow-container'>
-      Slideshow
-      <img src={`https://live.staticflickr.com/${photos[0].server}/${photos[0].id}_${photos[0].secret}_b.jpg`} />
+      <img src='#' alt='#' className='next-image' onClick={() => transitionImages()} />
+      <img src='#' alt='#' className='current-image'  />
     </div>
   )
 }
