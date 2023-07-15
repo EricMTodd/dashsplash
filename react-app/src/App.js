@@ -1,9 +1,10 @@
 import Slideshow from './components/Slideshow.js'
+import Clock from './components/Clock.js'
 
 const App = () => {
   return(
     <div className='app'>
-      <h1>Welcome home!</h1>
+      <Clock />
       <Slideshow />
     </div>
   )

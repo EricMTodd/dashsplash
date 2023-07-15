@@ -37,14 +37,16 @@ const Slideshow = () => {
     imageUrlsIndex += 1
     currentImage.src = imageUrls[imageUrlsIndex]
     nextImage.classList.remove('fade')
-    
+    nextImage.src = imageUrls[imageUrlsIndex + 1]
   }
 
   const transitionImages = () => {
-    let currentImage = document.querySelector('.current-image')
     let nextImage = document.querySelector('.next-image')
     nextImage.classList.add('fade')
+    setTimeout(switchImages, 2000)
   }
+
+  setInterval(transitionImages, 60000)
 
   return(
     <div className='slideshow-container'>
