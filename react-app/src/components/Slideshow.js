@@ -50,7 +50,7 @@ const Slideshow = () => {
 
   return(
     <div className='slideshow-container'>
-      <img src='#' alt='#' className='next-image' onClick={() => transitionImages()} />
+      <img src='#' alt='#' className='next-image' />
       <img src='#' alt='#' className='current-image'  />
     </div>
   )

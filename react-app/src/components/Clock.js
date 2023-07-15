@@ -12,11 +12,15 @@ const Clock = () => {
   } else {
     meridiem = 'AM'
   }
+
+  if (minute < 10) {
+    minute = '0' + minute
+  }
   
   return(
-    <div className='clock-container'>
-      <h1>{hour}:{minute} {meridiem}</h1>
-    </div>
+    <span className='clock-container'>
+      {hour}:{minute} {meridiem}
+    </span>
   )
 }
 
